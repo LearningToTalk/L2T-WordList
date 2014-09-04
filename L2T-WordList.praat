@@ -143,7 +143,7 @@ procedure wordlist_for_burst_tagging
     select 'wordlist.praat_obj$'
     Extract rows where column (text)... 'wordlist_columns.target_c$'
                                     ... "matches (regex)",
-                                    ... d|t|g|k
+                                    ... t|k
     .temp_obj$ = selected$()
     Extract rows where column (text)... 'wordlist_columns.trial_type$'
                                     ... "is equal to"
