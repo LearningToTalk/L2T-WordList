@@ -143,7 +143,7 @@ procedure wordlist_for_burst_tagging
     select 'wordlist.praat_obj$'
     Extract rows where column (text)... 'wordlist_columns.target_c$'
                                     ... "matches (regex)",
-                                    ... d|t|g|k
+                                    ... |t|k
     .temp_obj$ = selected$()
     Extract rows where column (text)... 'wordlist_columns.trial_type$'
                                     ... "is equal to"
@@ -206,7 +206,7 @@ procedure wordlist
       # If the user is current tagging turbulence events, the extract from
       # the WordList Table all and only those trials that contain a sibilant
       # as a target consonant.
-      if .activity$ == praat_activities.tag_turbulence$
+      if .activity$ == praat_activities.tag_turbulence$ | .activity$ == praat_activities.add_place$
         @wordlist_for_turbulence_tagging
       elif .activity$ == praat_activities.tag_burst$
         @wordlist_for_burst_tagging
