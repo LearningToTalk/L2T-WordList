@@ -117,14 +117,19 @@ procedure wordlist_for_turbulence_tagging
     Extract rows where column (text)... 'wordlist_columns.target_c$'
                                     ... "matches (regex)"
                                     ... s|S
-    .temp_obj$ = selected$()
+    .temp_obj1$ = selected$()
+    Extract rows where column (text)... 'wordlist_columns.target_c$'
+                                    ... "is not equal to"
+                                    ... tS
+    .temp_obj2$ = selected$()
     Extract rows where column (text)... 'wordlist_columns.trial_type$'
                                     ... "is equal to"
                                     ... Test
     .praat_obj$ = selected$()
     # Remove the original WordList Table, and the intermediary Tables.
     @remove: wordlist.praat_obj$
-    @remove: .temp_obj$
+    @remove: .temp_obj1$
+    @remove: .temp_obj2$
     # Rename the subsetted Table to the name of the original WordList.
     select '.praat_obj$'
     Rename... 'wordlist.table_obj$'
