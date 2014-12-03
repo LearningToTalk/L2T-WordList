@@ -6,7 +6,7 @@
 # columns in the Word List.
 procedure wordlist_columns .experimental_task$
 	call experimental_tasks
-	if .experimental_task$ == experimental_tasks.nwr$
+	if .experimental_task$ == "NonWordRep"
 		# Define string constants for the columns of an NWR WordList.
 		.trial_number = 1
 		.trial_number$ = "TrialNumber"
@@ -30,6 +30,7 @@ procedure wordlist_columns .experimental_task$
 		.frequency$ = "Frequency"
 		.comparison_pair = 11
 		.comparison_pair$ = "ComparisonPair"
+
 		# Gather the string constants into a vector.
 		.slot1$ = .trial_number$
 		.slot2$ = .trial_type$
@@ -43,7 +44,7 @@ procedure wordlist_columns .experimental_task$
 		.slot10$ = .frequency$
 		.slot11$ = .comparison_pair$
 		.length = 11
-	elif .experimental_task$ == experimental_tasks.rwr$
+	elif .experimental_task$ == "RealWordRep"
 		# Define string constants for the columns of an RWR WordList.
 		.trial_number = 1
 		.trial_number$ = "TrialNumber"
@@ -77,7 +78,7 @@ procedure wordlist_columns .experimental_task$
 		.slot9$ = .audio_prompt$
 		.slot10$ = .picture_prompt$
 		.length = 10
-	elif .experimental_task$ == experimental_tasks.gfta$
+	elif .experimental_task$ == "GFTA"
 		.word = 1
 		.word$ = "word"
 		.worldBet = 2
@@ -137,7 +138,7 @@ procedure wordlist_for_turbulence_tagging
 	# If the WordList exists as a Table in the Praat Objects list,
 	# use the experimental task to determine how it should be subsetted.
 	printline Extracting sibilant trials from 'wordlist.praat_obj$' ...
-	if wordlist.experimental_task$ == experimental_tasks.rwr$
+	if wordlist.experimental_task$ == "RealWordRep"
 		select 'wordlist.praat_obj$'
 		Extract rows where column (text)... 'wordlist_columns.target_c$'
 			... "matches (regex)"
@@ -168,7 +169,7 @@ procedure wordlist_for_burst_tagging
 	# If the WordList exists as a Table in the Praat Objects list,
 	# use the [.experimental_task$] to determine how it should be subsetted.
 	printline Extracting stop burst trials from 'wordlist.praat_obj$' ...
-	if wordlist.experimental_task$ == experimental_tasks.rwr$
+	if wordlist.experimental_task$ == "RealWordRep"
 		select 'wordlist.praat_obj$'
 		Extract rows where column (text)... 'wordlist_columns.target_c$'
 			... "matches (regex)",
@@ -236,12 +237,12 @@ procedure wordlist
 			# If the user is current tagging turbulence events, the extract from
 			# the WordList Table all and only those trials that contain a sibilant
 			# as a target consonant.
-			if .activity$ == praat_activities.tag_turbulence$ | .activity$ == praat_activities.add_place$
+			if .activity$ == "Tag turbulence events" | .activity$ == "Add place-transcription to RWR TP1 turbulence tags"
 				@wordlist_for_turbulence_tagging
-			elif .activity$ == praat_activities.tag_burst$
+			elif .activity$ == "Tag burst events"
 				@wordlist_for_burst_tagging
 			endif
-		elif .experimental_task$ == experimental_tasks.gfta$
+		elif .experimental_task$ == "GFTA"
 			# If the task is GFTA, there is usually just one file for everyone.
 			.read_from$ = session_parameters.analysis_directory$ + "/" + .experimental_task$ + "/GFTA_info.txt"
 			# The [.write_to$] path is an empty string because modifications to the
